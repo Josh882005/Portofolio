@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            background-color: #f7f9fc;
+        }
+
+        .hero-background {
+            background: linear-gradient(135deg, #1f2937, #3b82f6);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 15px 15px;
+            opacity: 0.2;
+        }
+        
+        .card {
+            background-color: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            color: #1f2937;
+        }
+
+        .section-subtitle {
+            color: #6b7280;
+        }
+
+        .icon-box {
+            background-color: #e0f2fe;
+            color: #2563eb;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+        }
+
+        /* Custom styles for the slider */
+        .tools-slider-container, .projects-slider-container {
+            position: relative;
+        }
+
+        .tools-slider, .projects-slider {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Firefox */
+            gap: 1rem; /* Added gap between cards */
+        }
+
+        .tools-slider::-webkit-scrollbar, .projects-slider::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+
+        .tools-slider .card, .projects-slider .card {
+            flex: 0 0 auto;
+            width: 250px;
+            scroll-snap-align: start;
+        }
+
+        .slider-button {
+            background-color: white;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .slider-button:hover {
+            background-color: #f3f4f6;
+            border-color: #9ca3af;
+        }
+
+        .project-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+
+        .project-details.expanded {
+            max-height: 1000px; /* A large value to allow for smooth transition */
+        }
+
+        /* Modal for Activities */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #4b5563;
+        }
+
+        .image-gallery {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 1rem;
+        }
+
+        .image-gallery img {
+            max-width: 80vw;
+            height: auto;
+            border-radius: 0.5rem;
+            scroll-snap-align: center;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+<!-- Hero Section -->
+<header class="hero-background text-white py-20 md:py-32">
+    <div class="container mx-auto px-4 text-center relative z-10">
+        <!-- Profile Picture Placeholder -->
+        <div class="mb-8 mx-auto w-36 h-36">
+            <img src="https://placehold.co/150x150/ffffff/2563eb?text=Profile" alt="Profile Picture" class="w-full h-full object-cover rounded-full border-4 border-white shadow-lg">
+        </div>
+        <h1 class="text-3xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-4 animate-fade-in-up">
+            Business Information Technology Student
+        </h1>
+        <p class="text-base md:text-lg lg:text-xl max-w-3xl mx-auto mb-8 opacity-90 animate-fade-in-up delay-200">
+            Bridging the gap between business processes and innovative technology solutions. Passionate about data-driven insights and digital transformation.
+        </p>
+        <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
+            <a href="#projects" class="inline-block bg-white text-blue-600 font-medium py-3 px-6 rounded-lg shadow-lg hover:bg-gray-200 transition-colors duration-300">
+                View My Projects
+            </a>
+            <a href="#contact" class="inline-block border border-white text-white font-medium py-3 px-6 rounded-lg hover:bg-white hover:text-blue-600 transition-colors duration-300">
+                Get In Touch
+            </a>
+            <a href="#" class="inline-block text-white font-medium py-3 px-6 rounded-lg hover:underline transition-colors duration-300">
+                Download CV
+            </a>
+        </div>
+        
+        <div class="mt-12 flex flex-wrap justify-center items-center gap-8">
+            <div class="text-center">
+                <p class="text-3xl font-bold">15+</p>
+                <p class="text-sm opacity-80">Projects</p>
+            </div>
+            <div class="text-center">
+                <p class="text-3xl font-bold">8+</p>
+                <p class="text-sm opacity-80">Technologies</p>
+            </div>
+            <div class="text-center">
+                <p class="text-3xl font-bold">100%</p>
+                <p class="text-sm opacity-80">Dedication</p>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Featured Projects Section -->
+<section id="projects" class="py-16 md:py-24 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-extrabold section-title">Featured Projects</h2>
+            <p class="mt-2 text-base md:text-lg section-subtitle max-w-2xl mx-auto">
+                Exploring the intersection of business and technology through innovative solutions. Click on any project to see detailed contributions and technical implementations.
+            </p>
+        </div>
+        
+        <div id="projects-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Project Card 1 -->
+            <div class="card p-6 project-card-item" data-project="project1">
+                <img src="https://placehold.co/600x400/2563eb/ffffff?text=Project+1" alt="Project 1" class="rounded-md mb-4 w-full h-auto object-cover">
+                <h3 class="text-xl font-bold mb-2">Business Analytics Dashboard</h3>
+                <p class="text-sm text-gray-500 mb-4">
+                    Comprehensive dashboard designed to analyze business performance metrics and KPIs with real-time data visualization.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">Power BI</span>
+                    <span class="bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">Python</span>
+                    <span class="bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">SQL Server</span>
+                </div>
+                <a class="details-toggle text-blue-600 font-medium hover:underline flex items-center mb-4 cursor-pointer">
+                    <span>Show Details & Contributions</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </a>
+            </div>
+            
+            <!-- Project Card 2 -->
+            <div class="card p-6 project-card-item" data-project="project2">
+                <img src="https://placehold.co/600x400/2563eb/ffffff?text=Project+2" alt="Project 2" class="rounded-md mb-4 w-full h-auto object-cover">
+                <h3 class="text-xl font-bold mb-2">Database Management System</h3>
+                <p class="text-sm text-gray-500 mb-4">
+                    Enterprise-level database solution with optimized queries and comprehensive data management features.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">MySQL</span>
+                    <span class="bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">PostgreSQL</span>
+                    <span class="bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">Python</span>
+                </div>
+                <a class="details-toggle text-blue-600 font-medium hover:underline flex items-center mb-4 cursor-pointer">
+                    <span>Show Details & Contributions</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Project Card 3 -->
+            <div class="card p-6 project-card-item" data-project="project3">
+                <img src="https://placehold.co/600x400/2563eb/ffffff?text=Project+3" alt="Project 3" class="rounded-md mb-4 w-full h-auto object-cover">
+                <h3 class="text-xl font-bold mb-2">Process Automation Suite</h3>
+                <p class="text-sm text-gray-500 mb-4">
+                    Digital transformation project automating manual business processes and improving operational efficiency.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">Microsoft Power Automate</span>
+                    <span class="bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">SharePoint</span>
+                    <span class="bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">Azure</span>
+                </div>
+                <a class="details-toggle text-blue-600 font-medium hover:underline flex items-center mb-4 cursor-pointer">
+                    <span>Show Details & Contributions</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Project Card 4 -->
+            <div class="card p-6 project-card-item" data-project="project4">
+                <img src="https://placehold.co/600x400/2563eb/ffffff?text=Project+4" alt="Project 4" class="rounded-md mb-4 w-full h-auto object-cover">
+                <h3 class="text-xl font-bold mb-2">Data Management & Integration</h3>
+                <p class="text-sm text-gray-500 mb-4">
+                    A solution to streamline data from disparate sources into a unified data warehouse for analysis.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">SQL</span>
+                    <span class="bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">Python</span>
+                    <span class="bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">AWS Glue</span>
+                </div>
+                <a class="details-toggle text-blue-600 font-medium hover:underline flex items-center mb-4 cursor-pointer">
+                    <span>Show Details & Contributions</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Project Card 5 -->
+            <div class="card p-6 project-card-item" data-project="project5">
+                <img src="https://placehold.co/600x400/2563eb/ffffff?text=Project+5" alt="Project 5" class="rounded-md mb-4 w-full h-auto object-cover">
+                <h3 class="text-xl font-bold mb-2">Supply Chain Optimization</h3>
+                <p class="text-sm text-gray-500 mb-4">
+                    An analytical tool that helps businesses optimize their supply chain for better efficiency and cost savings.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">Tableau</span>
+                    <span class="bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">Python</span>
+                </div>
+                <a class="details-toggle text-blue-600 font-medium hover:underline flex items-center mb-4 cursor-pointer">
+                    <span>Show Details & Contributions</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </a>
+            </div>
+            
+            <!-- Project Card 6 -->
+            <div class="card p-6 project-card-item" data-project="project6">
+                <img src="https://placehold.co/600x400/2563eb/ffffff?text=Project+6" alt="Project 6" class="rounded-md mb-4 w-full h-auto object-cover">
+                <h3 class="text-xl font-bold mb-2">Titanic Survival Prediction</h3>
+                <p class="text-sm text-gray-500 mb-4">
+                    This data analysis project uses machine learning models to predict passenger survival on the Titanic.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">Python</span>
+                    <span class="bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">Pandas</span>
+                    <span class="bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">Scikit-learn</span>
+                </div>
+                <a class="details-toggle text-blue-600 font-medium hover:underline flex items-center mb-4 cursor-pointer">
+                    <span>Show Details & Contributions</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Services & Expertise Section -->
+<section id="services" class="py-16 md:py-24 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-extrabold section-title">Services & Expertise</h2>
+            <p class="mt-2 text-base md:text-lg section-subtitle max-w-2xl mx-auto">
+                Specialized in bridging business needs with technology solutions. Here's how I can help transform your business processes.
+            </p>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Service Card 1 -->
+            <div class="card p-6 flex flex-col items-start">
+                <div class="icon-box mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0h6m-6 0h6m-6 0h4m-4 0h2m-2 0h2"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold mb-2">Business Analytics</h3>
+                <p class="text-sm text-gray-500 mb-4">
+                    Transform raw data into actionable business insights through advanced analytics and visualization techniques.
+                </p>
+                <ul class="text-sm text-gray-600 space-y-2">
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Data Visualization</li>
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>KPI Dashboards</li>
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Trend Analysis</li>
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Predictive Modeling</li>
+                </ul>
+            </div>
+            
+            <!-- Service Card 2 -->
+            <div class="card p-6 flex flex-col items-start">
+                <div class="icon-box mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10m8 0h4m-4 0h-4m4 0h2m-2 0h2m-2 0h2M4 7h16a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V9a2 2 0 012-2z" />
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold mb-2">Database Design & Management</h3>
+                <p class="text-sm text-gray-500 mb-4">
+                    Design and optimize database systems for maximum performance, security, and scalability.
+                </p>
+                <ul class="text-sm text-gray-600 space-y-2">
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Database Architecture</li>
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Query Optimization</li>
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Data Migration</li>
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Backup Solutions</li>
+                </ul>
+            </div>
+
+            <!-- Service Card 3 -->
+            <div class="card p-6 flex flex-col items-start">
+                <div class="icon-box mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 21h7a2 2 0 002-2V9a2 2 0 00-2-2h-7m-6 2h2m-2-2h4a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2v-6a2 2 0 012-2zm0 0h12" />
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold mb-2">Process Automation Suite</h3>
+                <p class="text-sm text-gray-500 mb-4">
+                    Digital transformation project automating manual business processes and improving operational efficiency.
+                </p>
+                <ul class="text-sm text-gray-600 space-y-2">
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Workflow Design</li>
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Process Mining</li>
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>RPA Implementation</li>
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Integration Services</li>
+                </ul>
+            </div>
+            
+            <!-- Service Card 4 -->
+            <div class="card p-6 flex flex-col items-start">
+                <div class="icon-box mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold mb-2">System Analysis</h3>
+                <p class="text-sm text-gray-500 mb-4">
+                    Analyze existing systems and recommend improvements for better efficiency and user experience.
+                </p>
+                <ul class="text-sm text-gray-600 space-y-2">
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Requirements Analysis</li>
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>System Documentation</li>
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Gap Analysis</li>
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Solution Architecture</li>
+                </ul>
+            </div>
+
+            <!-- Service Card 5 -->
+            <div class="card p-6 flex flex-col items-start">
+                <div class="icon-box mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold mb-2">Data Governance</h3>
+                <p class="text-sm text-gray-500 mb-4">
+                    Implement robust data governance frameworks to ensure data quality, security, and compliance.
+                </p>
+                <ul class="text-sm text-gray-600 space-y-2">
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Data Quality</li>
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Security Protocols</li>
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Compliance Management</li>
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Access Control</li>
+                </ul>
+            </div>
+
+            <!-- Service Card 6 -->
+            <div class="card p-6 flex flex-col items-start">
+                <div class="icon-box mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold mb-2">Digital Transformation</h3>
+                <p class="text-sm text-gray-500 mb-4">
+                    Guide organizations through digital transformation initiatives with strategic technology adoption.
+                </p>
+                <ul class="text-sm text-gray-600 space-y-2">
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Technology Strategy</li>
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Change Management</li>
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Training Programs</li>
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Performance Monitoring</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Tools & Applications Section -->
+<section id="tools" class="py-16 md:py-24 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-extrabold section-title">Tools & Applications</h2>
+            <p class="mt-2 text-base md:text-lg section-subtitle max-w-2xl mx-auto">
+                Proficient in various business and technology tools that enable data-driven decision making and process optimization.
+            </p>
+        </div>
+        
+        <div class="flex justify-center mb-8 space-x-2">
+            <button class="tab-button px-4 py-2 rounded-lg font-medium text-sm text-blue-600 bg-blue-100 transition-colors duration-200 active-tab" data-category="development">Development</button>
+            <button class="tab-button px-4 py-2 rounded-lg font-medium text-sm text-gray-600 bg-white hover:bg-gray-100 transition-colors duration-200" data-category="database">Database</button>
+            <button class="tab-button px-4 py-2 rounded-lg font-medium text-sm text-gray-600 bg-white hover:bg-gray-100 transition-colors duration-200" data-category="business">Business</button>
+            <button class="tab-button px-4 py-2 rounded-lg font-medium text-sm text-gray-600 bg-white hover:bg-gray-100 transition-colors duration-200" data-category="cloud">Cloud</button>
+            <button class="tab-button px-4 py-2 rounded-lg font-medium text-sm text-gray-600 bg-white hover:bg-gray-100 transition-colors duration-200" data-category="all">All</button>
+        </div>
+
+        <div class="p-8 bg-white rounded-2xl shadow-lg">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="category-title" class="text-xl font-bold">Development & Programming</h3>
+                <div class="flex space-x-2">
+                    <button id="tools-scroll-left" class="slider-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 hover:text-blue-600 transition-colors duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+                    <button id="tools-scroll-right" class="slider-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 hover:text-blue-600 transition-colors duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div id="tools-container" class="tools-slider-container">
+                <div id="slider-content" class="tools-slider">
+                    <!-- Tool Cards - All in one place -->
+                    <div class="card p-4 tool-card" data-category="development">
+                        <img src="https://placehold.co/40x40/ffffff/2563eb?text=Python" alt="Python" class="h-10 w-10 mb-2 rounded-full">
+                        <h3 class="text-lg font-bold">Python</h3>
+                        <p class="text-sm text-blue-600 mb-2">Programming</p>
+                        <p class="text-xs text-gray-500 mb-2">Activity: Building data pipelines</p>
+                    </div>
+                    <div class="card p-4 tool-card" data-category="development">
+                        <img src="https://placehold.co/40x40/ffffff/f7df1e?text=JS" alt="JavaScript" class="h-10 w-10 mb-2 rounded-full">
+                        <h3 class="text-lg font-bold">JavaScript</h3>
+                        <p class="text-sm text-blue-600 mb-2">Web Development</p>
+                        <p class="text-xs text-gray-500 mb-2">Activity: Creating web applications</p>
+                    </div>
+                    <div class="card p-4 tool-card" data-category="development">
+                        <img src="https://placehold.co/40x40/ffffff/61dafb?text=React" alt="React" class="h-10 w-10 mb-2 rounded-full">
+                        <h3 class="text-lg font-bold">React</h3>
+                        <p class="text-sm text-blue-600 mb-2">Modern UI development</p>
+                        <p class="text-xs text-gray-500 mb-2">Activity: Building interactive interfaces</p>
+                    </div>
+                    <div class="card p-4 tool-card" data-category="development">
+                        <img src="https://placehold.co/40x40/ffffff/f05033?text=Git" alt="Git" class="h-10 w-10 mb-2 rounded-full">
+                        <h3 class="text-lg font-bold">Git</h3>
+                        <p class="text-sm text-blue-600 mb-2">Version Control</p>
+                        <p class="text-xs text-gray-500 mb-2">Activity: Managing project versions</p>
+                    </div>
+                    <div class="card p-4 tool-card" data-category="development">
+                        <img src="https://placehold.co/40x40/ffffff/586e92?text=Django" alt="Django" class="h-10 w-10 mb-2 rounded-full">
+                        <h3 class="text-lg font-bold">Django</h3>
+                        <p class="text-sm text-blue-600 mb-2">Web Framework</p>
+                        <p class="text-xs text-gray-500 mb-2">Activity: Building web applications</p>
+                    </div>
+                    <div class="card p-4 tool-card" data-category="database">
+                        <img src="https://placehold.co/40x40/ffffff/4169e1?text=SQL" alt="SQL Server" class="h-10 w-10 mb-2 rounded-full">
+                        <h3 class="text-lg font-bold">SQL Server</h3>
+                        <p class="text-sm text-blue-600 mb-2">Database</p>
+                        <p class="text-xs text-gray-500 mb-2">Activity: Data querying & management</p>
+                    </div>
+                    <div class="card p-4 tool-card" data-category="database">
+                        <img src="https://placehold.co/40x40/ffffff/4479A1?text=MySQL" alt="MySQL" class="h-10 w-10 mb-2 rounded-full">
+                        <h3 class="text-lg font-bold">MySQL</h3>
+                        <p class="text-sm text-blue-600 mb-2">Database</p>
+                        <p class="text-xs text-gray-500 mb-2">Activity: Relational database design</p>
+                    </div>
+                    <div class="card p-4 tool-card" data-category="database">
+                        <img src="https://placehold.co/40x40/ffffff/336791?text=PostG" alt="PostgreSQL" class="h-10 w-10 mb-2 rounded-full">
+                        <h3 class="text-lg font-bold">PostgreSQL</h3>
+                        <p class="text-sm text-blue-600 mb-2">Database</p>
+                        <p class="text-xs text-gray-500 mb-2">Activity: Data integrity & security</p>
+                    </div>
+                    <div class="card p-4 tool-card" data-category="business">
+                        <img src="https://placehold.co/40x40/ffffff/469446?text=Excel" alt="Microsoft Excel" class="h-10 w-10 mb-2 rounded-full">
+                        <h3 class="text-lg font-bold">Microsoft Excel</h3>
+                        <p class="text-sm text-blue-600 mb-2">Spreadsheet</p>
+                        <p class="text-xs text-gray-500 mb-2">Activity: Financial modeling & analysis</p>
+                    </div>
+                    <div class="card p-4 tool-card" data-category="business">
+                        <img src="https://placehold.co/40x40/ffffff/f24e1e?text=Figma" alt="Figma" class="h-10 w-10 mb-2 rounded-full">
+                        <h3 class="text-lg font-bold">Figma</h3>
+                        <p class="text-sm text-blue-600 mb-2">Design</p>
+                        <p class="text-xs text-gray-500 mb-2">Activity: Designing user experiences</p>
+                    </div>
+                    <div class="card p-4 tool-card" data-category="business">
+                        <img src="https://placehold.co/40x40/ffffff/ea3b2f?text=Adobe" alt="Adobe Creative Suite" class="h-10 w-10 mb-2 rounded-full">
+                        <h3 class="text-lg font-bold">Adobe Creative Suite</h3>
+                        <p class="text-sm text-blue-600 mb-2">Creative</p>
+                        <p class="text-xs text-gray-500 mb-2">Activity: Creating visual content</p>
+                    </div>
+                    <div class="card p-4 tool-card" data-category="business">
+                        <img src="https://placehold.co/40x40/ffffff/16a3b2?text=Miro" alt="Miro" class="h-10 w-10 mb-2 rounded-full">
+                        <h3 class="text-lg font-bold">Miro</h3>
+                        <p class="text-sm text-blue-600 mb-2">Collaboration</p>
+                        <p class="text-xs text-gray-500 mb-2">Activity: Brainstorming & wireframing</p>
+                    </div>
+                    <div class="card p-4 tool-card" data-category="cloud">
+                        <img src="https://placehold.co/40x40/ffffff/4285F4?text=GCP" alt="Google Cloud" class="h-10 w-10 mb-2 rounded-full">
+                        <h3 class="text-lg font-bold">Google Cloud</h3>
+                        <p class="text-sm text-blue-600 mb-2">Cloud Computing</p>
+                        <p class="text-xs text-gray-500 mb-2">Activity: Deploying applications</p>
+                    </div>
+                    <div class="card p-4 tool-card" data-category="cloud">
+                        <img src="https://placehold.co/40x40/ffffff/00A1F1?text=Azure" alt="Azure" class="h-10 w-10 mb-2 rounded-full">
+                        <h3 class="text-lg font-bold">Microsoft Azure</h3>
+                        <p class="text-sm text-blue-600 mb-2">Cloud Computing</p>
+                        <p class="text-xs text-gray-500 mb-2">Activity: Managing cloud services</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Activities Section -->
+<section id="activities" class="py-16 md:py-24 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-extrabold section-title">Activities</h2>
+            <p class="mt-2 text-base md:text-lg section-subtitle max-w-2xl mx-auto">
+                Showcasing my involvement in community service and other impactful activities.
+            </p>
+        </div>
+        
+        <div id="activities-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Activity Card 1 -->
+            <div class="card p-6 activity-card-item" data-activity="activity1">
+                <img src="https://placehold.co/600x400/2563eb/ffffff?text=Activity+1" alt="Activity 1" class="rounded-md mb-4 w-full h-auto object-cover">
+                <h3 class="text-xl font-bold mb-2">Community Service Event</h3>
+                <p class="text-sm text-gray-500 mb-4">
+                    Volunteering with a local organization to help clean up public parks and green spaces.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">Community Service</span>
+                    <span class="bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">Volunteering</span>
+                </div>
+                <a class="view-pictures-toggle text-blue-600 font-medium hover:underline flex items-center mb-4 cursor-pointer" data-activity="activity1">
+                    <span>View Pictures</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l-4.586-4.586a2 2 0 00-2.828 0L4 16m4 0l4.586-4.586a2 2 0 012.828 0L20 16" />
+                    </svg>
+                </a>
+            </div>
+            
+            <!-- Activity Card 2 -->
+            <div class="card p-6 activity-card-item" data-activity="activity2">
+                <img src="https://placehold.co/600x400/2563eb/ffffff?text=Activity+2" alt="Activity 2" class="rounded-md mb-4 w-full h-auto object-cover">
+                <h3 class="text-xl font-bold mb-2">Charity Run</h3>
+                <p class="text-sm text-gray-500 mb-4">
+                    Participated in a charity run to raise funds for a local children's hospital.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">Charity</span>
+                    <span class="bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">Fundraising</span>
+                </div>
+                <a class="view-pictures-toggle text-blue-600 font-medium hover:underline flex items-center mb-4 cursor-pointer" data-activity="activity2">
+                    <span>View Pictures</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l-4.586-4.586a2 2 0 00-2.828 0L4 16m4 0l4.586-4.586a2 2 0 012.828 0L20 16" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Contact Section -->
+<section id="contact" class="py-16 md:py-24 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-extrabold section-title">Let's Connect</h2>
+            <p class="mt-2 text-base md:text-lg section-subtitle max-w-2xl mx-auto">
+                Interested in collaborating or have questions about business information technology? I'd love to hear from you and discuss potential opportunities.
+            </p>
+        </div>
+        <div class="max-w-4xl mx-auto bg-gray-50 p-8 rounded-2xl shadow-lg">
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Send a Message Form -->
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">Send a Message</h3>
+                    <form>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label for="full-name" class="block text-sm font-medium text-gray-700">Full Name</label>
+                                <input type="text" id="full-name" name="full-name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                            </div>
+                            <div>
+                                <label for="email-address" class="block text-sm font-medium text-gray-700">Email Address</label>
+                                <input type="email" id="email-address" name="email-address" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label for="subject" class="block text-sm font-medium text-gray-700">Subject</label>
+                            <input type="text" id="subject" name="subject" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                        </div>
+                        <div class="mb-4">
+                            <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
+                            <textarea id="message" name="message" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-blue-600 text-white font-medium py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Get in Touch -->
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">Get in Touch</h3>
+                    <p class="text-gray-600 mb-6">
+                        I'm always open to discussing new opportunities, innovative projects, or answering questions about business information technology.
+                    </p>
+                    <ul class="space-y-4 text-gray-700">
+                        <li class="flex items-center">
+                            <div class="icon-box mr-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <a href="mailto:your.email@example.com" class="hover:underline">your.email@example.com</a>
+                        </li>
+                        <li class="flex items-center">
+                            <div class="icon-box mr-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                </svg>
+                            </div>
+                            <span>+62 123 456 7890</span>
+                        </li>
+                        <li class="flex items-center">
+                            <div class="icon-box mr-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                            </div>
+                            <span>Jakarta, Indonesia</span>
+                        </li>
+                        <li class="flex items-center">
+                            <div class="icon-box mr-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
+                                    <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM4 19h4v-7H4z"/>
+                                    <path d="M6 3a2 2 0 100 4 2 2 0 000-4z"/>
+                                </svg>
+                            </div>
+                            <a href="https://www.linkedin.com/in/yourprofile" target="_blank" class="hover:underline">linkedin.com/in/yourprofile</a>
+                        </li>
+                        <li class="flex items-center">
+                            <div class="icon-box mr-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
+                                    <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.867-.013-1.708-2.783.601-3.366-1.34-3.366-1.34-.454-1.154-1.109-1.462-1.109-1.462-.908-.62.069-.608.069-.608 1.004.07 1.531 1.032 1.531 1.032.892 1.529 2.341 1.085 2.91.829.091-.64.351-1.085.636-1.336-2.22-.251-4.555-1.11-4.555-4.941 0-1.091.39-1.984 1.029-2.682-.103-.251-.446-1.268.097-2.658 0 0 .84-.27 2.75 1.025a9.567 9.567 0 012.55-.344c.833.003 1.664.114 2.457.324 1.909-1.29 2.748-1.025 2.748-1.025.546 1.39.202 2.407.099 2.658.64.698 1.028 1.59 1.028 2.682 0 3.84-2.339 4.686-4.568 4.933.359.31.678.924.678 1.861 0 1.347-.012 2.433-.012 2.766 0 .269.18.577.688.483C21.144 20.2 24 16.444 24 12.017A10.017 10.017 0 0012 2z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <a href="https://github.com/yourusername" target="_blank" class="hover:underline">github.com/yourusername</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-gray-800 text-white py-6">
+    <div class="container mx-auto px-4 text-center text-sm opacity-75">
+        &copy; 2024 Your Name. All rights reserved.
+    </div>
+</footer>
+
+<!-- Image Modal -->
+<div id="image-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modal-title" class="text-xl font-bold"></h3>
+            <button id="modal-close-btn" class="modal-close">
+                &times;
+            </button>
+        </div>
+        <div id="image-gallery-container" class="image-gallery">
+            <!-- Images will be dynamically inserted here -->
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Data for the detailed view
+        const projectData = {
+            project1: {
+                title: 'Business Analytics Dashboard',
+                image: 'https://placehold.co/600x400/2563eb/ffffff?text=Project+1',
+                description: 'A complete business intelligence solution that aggregates data from multiple sources to provide actionable insights. The dashboard features interactive charts, trend analysis, and predictive modeling to help stakeholders make informed decisions. Built with modern web technologies and integrated with various business systems.',
+                contributions: [
+                    'Designed and implemented the entire dashboard architecture',
+                    'Created automated data pipelines for real-time updates',
+                    'Developed interactive visualizations using D3.js and Chart.js',
+                    'Integrated multiple data sources including CRM and ERP systems',
+                    'Implemented user authentication and role-based access control'
+                ],
+                technologies: ['Power BI', 'Python', 'SQL Server', 'React', 'D3.js', 'Docker', 'Excel'],
+                demoUrl: '#',
+                sourceUrl: 'https://github.com/your-username/your-project-repo',
+                images: [
+                    'https://placehold.co/800x600/e0f2fe/2563eb?text=Project+1+Image+1',
+                    'https://placehold.co/800x600/e0f2fe/2563eb?text=Project+1+Image+2'
+                ]
+            },
+            project2: {
+                title: 'Database Management System',
+                image: 'https://placehold.co/600x400/2563eb/ffffff?text=Project+2',
+                description: 'A robust database management system designed to handle large-scale business data with high performance and reliability. Features include automated backup systems, query optimization, data integrity constraints, and comprehensive reporting capabilities. The system supports multiple business units and provides role-based data access.',
+                contributions: [
+                    'Designed normalized database schema for optimal performance',
+                    'Implemented stored procedures and triggers for data integrity',
+                    'Created automated backup and recovery systems',
+                    'Developed RESTful APIs for data access and manipulation',
+                    'Optimized complex queries to improve response times by 60%'
+                ],
+                technologies: ['MySQL', 'PostgreSQL', 'Python', 'Django', 'Redis', 'Docker'],
+                demoUrl: '#',
+                sourceUrl: 'https://github.com/your-username/your-project-repo',
+                images: [
+                    'https://placehold.co/800x600/e0f2fe/2563eb?text=Project+2+Image+1',
+                    'https://placehold.co/800x600/e0f2fe/2563eb?text=Project+2+Image+2'
+                ]
+            },
+            project3: {
+                title: 'Process Automation Suite',
+                image: 'https://placehold.co/600x400/2563eb/ffffff?text=Project+3',
+                description: 'A comprehensive process automation solution that digitizes and streamlines various business workflows. The system includes workflow design tools, automated approval processes, document management, and integration with existing business systems. Features real-time monitoring and analytics to track process performance and identify optimization opportunities.',
+                contributions: [
+                    'Analyzed existing manual processes and identified automation opportunities',
+                    'Designed automated workflows using Microsoft Power Automate',
+                    'Integrated with SharePoint for document management',
+                    'Created custom connectors for legacy system integration',
+                    'Reduced processing time by 75% through automation'
+                ],
+                technologies: ['Microsoft Power Automate', 'SharePoint', 'Azure', 'C#', '.NET', 'Quartz'],
+                demoUrl: '#',
+                sourceUrl: 'https://github.com/your-username/your-project-repo',
+                images: [
+                    'https://placehold.co/800x600/e0f2fe/2563eb?text=Project+3+Image+1',
+                    'https://placehold.co/800x600/e0f2fe/2563eb?text=Project+3+Image+2'
+                ]
+            },
+            project4: {
+                title: 'Data Management & Integration',
+                image: 'https://placehold.co/600x400/2563eb/ffffff?text=Project+4',
+                description: 'An ETL (Extract, Transform, Load) project designed to consolidate data from various business systems. This project ensures data consistency, quality, and accessibility for business intelligence and reporting.',
+                contributions: [
+                    'Designed and implemented ETL pipelines',
+                    'Ensured data quality and integrity checks',
+                    'Built automated workflows for nightly data updates',
+                    'Created dashboards for monitoring data flow'
+                ],
+                technologies: ['SQL', 'Python', 'AWS Glue', 'AWS S3'],
+                demoUrl: '#',
+                sourceUrl: 'https://github.com/your-username/your-project-repo',
+                images: [
+                    'https://placehold.co/800x600/e0f2fe/2563eb?text=Project+4+Image+1',
+                    'https://placehold.co/800x600/e0f2fe/2563eb?text=Project+4+Image+2'
+                ]
+            },
+            project5: {
+                title: 'Supply Chain Optimization',
+                image: 'https://placehold.co/600x400/2563eb/ffffff?text=Project+5',
+                description: 'This project uses data science techniques to analyze supply chain data, identify bottlenecks, and suggest improvements.',
+                contributions: [
+                    'Developed data models to predict supply chain efficiency',
+                    'Created interactive dashboards for visualizing metrics',
+                    'Collaborated with business stakeholders to define key performance indicators'
+                ],
+                technologies: ['Tableau', 'Python', 'Scikit-learn'],
+                demoUrl: '#',
+                sourceUrl: 'https://github.com/your-username/your-project-repo',
+                images: [
+                    'https://placehold.co/800x600/e0f2fe/2563eb?text=Project+5+Image+1',
+                    'https://placehold.co/800x600/e0f2fe/2563eb?text=Project+5+Image+2'
+                ]
+            },
+            project6: {
+                title: 'Titanic Survival Prediction',
+                image: 'https://placehold.co/600x400/2563eb/ffffff?text=Confusion+Matrix',
+                description: 'This data analysis project uses various machine learning models to predict passenger survival on the Titanic, demonstrating data cleaning, feature engineering, and model evaluation techniques.',
+                contributions: [
+                    'Performed exploratory data analysis to identify key features',
+                    'Preprocessed data using imputation and one-hot encoding',
+                    'Trained and evaluated multiple classification models, including Random Forest, Logistic Regression, and MLPClassifier',
+                    'Visualized model performance with confusion matrices'
+                ],
+                technologies: ['Python', 'Pandas', 'Scikit-learn', 'Matplotlib', 'Seaborn'],
+                reportUrl: '#',
+                sourceUrl: 'https://github.com/Josh882005/Jupiter-Kaggle.git',
+                images: [
+                    'https://placehold.co/800x600/e0f2fe/2563eb?text=Titanic+EDA+1',
+                    'https://placehold.co/800x600/e0f2fe/2563eb?text=Titanic+Confusion+Matrix',
+                    'https://placehold.co/800x600/e0f2fe/2563eb?text=Titanic+Feature+Importance'
+                ]
+            }
+        };
+
+        const activitiesData = {
+            activity1: {
+                title: 'Community Service Event',
+                images: [
+                    'https://placehold.co/800x600/e0f2fe/2563eb?text=Community+Event+1',
+                    'https://placehold.co/800x600/e0f2fe/2563eb?text=Community+Event+2',
+                    'https://placehold.co/800x600/e0f2fe/2563eb?text=Community+Event+3'
+                ]
+            },
+            activity2: {
+                title: 'Charity Run',
+                images: [
+                    'https://placehold.co/800x600/e0f2fe/2563eb?text=Charity+Run+1',
+                    'https://placehold.co/800x600/e0f2fe/2563eb?text=Charity+Run+2',
+                    'https://placehold.co/800x600/e0f2fe/2563eb?text=Charity+Run+3',
+                    'https://placehold.co/800x600/e0f2fe/2563eb?text=Charity+Run+4'
+                ]
+            }
+        };
+        
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const toolsSliderContent = document.getElementById('slider-content');
+        const toolCards = document.querySelectorAll('.tool-card');
+        const categoryTitle = document.getElementById('category-title');
+        const toolsScrollLeftBtn = document.getElementById('tools-scroll-left');
+        const toolsScrollRightBtn = document.getElementById('tools-scroll-right');
+
+        // Project details toggle functionality
+        let expandedProjectDetailsRow = null;
+        document.querySelectorAll('.details-toggle').forEach(toggle => {
+            toggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                const parentCard = this.closest('.project-card-item');
+                const projectId = parentCard.getAttribute('data-project');
+
+                if (expandedProjectDetailsRow && expandedProjectDetailsRow.previousElementSibling === parentCard) {
+                    expandedProjectDetailsRow.remove();
+                    expandedProjectDetailsRow = null;
+                    return;
+                }
+                
+                if (expandedProjectDetailsRow) {
+                    expandedProjectDetailsRow.remove();
+                }
+
+                const project = projectData[projectId];
+                const detailsHtml = `
+                    <div class="card p-8 col-span-1 sm:col-span-2 lg:col-span-3">
+                        <a id="project-details-close-btn" class="text-blue-600 font-medium hover:underline flex items-center mb-4 cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 transform rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                            <span>Show Less</span>
+                        </a>
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="col-span-2 md:col-span-1">
+                                <img src="${project.image}" alt="${project.title}" class="rounded-md w-full h-auto object-cover mb-4">
+                            </div>
+                            <div class="col-span-2 md:col-span-1">
+                                <h3 class="text-2xl font-bold mb-2">${project.title}</h3>
+                                <p class="text-sm text-gray-500 mb-4">${project.description}</p>
+                                
+                                <h4 class="text-lg font-bold mt-4">Technologies Used</h4>
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    ${project.technologies.map(tech => `<span class="bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">${tech}</span>`).join('')}
+                                </div>
+                                
+                                <h4 class="text-lg font-bold mt-4">My Contributions</h4>
+                                <ul class="text-sm text-gray-600 space-y-1 ml-4 list-disc">
+                                    ${project.contributions.map(contrib => `<li>${contrib}</li>`).join('')}
+                                </ul>
+                                <div class="mt-6 flex space-x-4">
+                                    ${project.demoUrl !== '#' ? `<a href="${project.demoUrl}" target="_blank" class="inline-block bg-blue-600 text-white font-medium py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300">View Demo</a>` : ''}
+                                    ${project.reportUrl !== '#' ? `<a href="${project.reportUrl}" target="_blank" class="inline-block bg-blue-600 text-white font-medium py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300">View Report</a>` : ''}
+                                    ${project.sourceUrl !== '#' ? `<a href="${project.sourceUrl}" target="_blank" class="inline-block bg-gray-200 text-gray-700 font-medium py-2 px-4 rounded-lg shadow-md hover:bg-gray-300 transition-colors duration-300">View Source Code</a>` : ''}
+                                    ${project.images && project.images.length > 0 ? `<a id="project-view-pictures-btn" class="inline-flex items-center space-x-2 bg-blue-500 text-white font-medium py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition-colors duration-300 cursor-pointer">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l-4.586-4.586a2 2 0 00-2.828 0L4 16m4 0l4.586-4.586a2 2 0 012.828 0L20 16" />
+                                        </svg>
+                                        <span>View Images</span>
+                                    </a>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                const newRow = document.createElement('div');
+                newRow.className = 'col-span-1 sm:col-span-2 lg:col-span-3';
+                newRow.innerHTML = detailsHtml;
+
+                parentCard.after(newRow);
+                expandedProjectDetailsRow = newRow;
+
+                newRow.querySelector('#project-details-close-btn').addEventListener('click', function() {
+                    newRow.remove();
+                    expandedProjectDetailsRow = null;
+                });
+
+                if (newRow.querySelector('#project-view-pictures-btn')) {
+                    newRow.querySelector('#project-view-pictures-btn').addEventListener('click', function() {
+                        const imageGalleryContainer = document.getElementById('image-gallery-container');
+                        const modal = document.getElementById('image-modal');
+                        const modalTitle = document.getElementById('modal-title');
+                        
+                        imageGalleryContainer.innerHTML = '';
+                        project.images.forEach(imageUrl => {
+                            const img = document.createElement('img');
+                            img.src = imageUrl;
+                            img.alt = project.title;
+                            img.className = 'w-full object-contain h-auto rounded-lg';
+                            imageGalleryContainer.appendChild(img);
+                        });
+                        
+                        modalTitle.textContent = project.title;
+                        modal.style.display = 'flex';
+                    });
+                }
+                
+                newRow.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Activity details and modal functionality
+        document.querySelectorAll('.view-pictures-toggle').forEach(toggle => {
+            toggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                const activityId = this.getAttribute('data-activity');
+                const activity = activitiesData[activityId];
+                const imageGalleryContainer = document.getElementById('image-gallery-container');
+                const modal = document.getElementById('image-modal');
+                const modalTitle = document.getElementById('modal-title');
+                
+                imageGalleryContainer.innerHTML = '';
+                activity.images.forEach(imageUrl => {
+                    const img = document.createElement('img');
+                    img.src = imageUrl;
+                    img.alt = activity.title;
+                    img.className = 'w-full object-contain h-auto rounded-lg';
+                    imageGalleryContainer.appendChild(img);
+                });
+                
+                modalTitle.textContent = activity.title;
+                modal.style.display = 'flex';
+            });
+        });
+        
+        // Modal functionality for Activities
+        const modal = document.getElementById('image-modal');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+        
+        modalCloseBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'image-modal') {
+                modal.style.display = 'none';
+            }
+        });
+        
+        // Tool slider and category functionality on page load
+        function filterCards(category) {
+            toolCards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+        function updateCategoryTitle(category) {
+            const titles = {
+                'development': 'Development & Programming',
+                'database': 'Database',
+                'business': 'Business',
+                'cloud': 'Cloud',
+                'all': 'All Tools & Applications'
+            };
+            categoryTitle.textContent = titles[category] || 'Tools & Applications';
+        }
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                tabButtons.forEach(btn => {
+                    btn.classList.remove('active-tab', 'bg-blue-100', 'text-blue-600');
+                    btn.classList.add('bg-white', 'text-gray-600');
+                });
+                button.classList.add('active-tab', 'bg-blue-100', 'text-blue-600');
+                button.classList.remove('bg-white', 'text-gray-600');
+                const category = button.getAttribute('data-category');
+                filterCards(category);
+                updateCategoryTitle(category);
+                toolsSliderContent.scrollLeft = 0;
+            });
+        });
+        toolsScrollLeftBtn.addEventListener('click', () => {
+            toolsSliderContent.scrollBy({ left: -300, behavior: 'smooth' });
+        });
+        toolsScrollRightBtn.addEventListener('click', () => {
+            toolsSliderContent.scrollBy({ left: 300, behavior: 'smooth' });
+        });
+
+        filterCards('development');
+        updateCategoryTitle('development');
+
+    });
+</script>
+</body>
+</html>

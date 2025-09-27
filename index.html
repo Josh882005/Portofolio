@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joshua Getti Hutauruk's Website</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            background-color: #0d1117;
+            color: #f7f9fc;
+        }
+
+        /* Animations for a more dynamic feel */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes rotate-in {
+            from { opacity: 0; transform: rotate(15deg) scale(0.8); }
+            to { opacity: 1; transform: rotate(0) scale(1); }
+        }
+        @keyframes flowing-lines {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+        .animate-fade-in-up { animation: fadeIn 0.8s ease-out forwards; opacity: 0; }
+        .animate-fade-in-up.delay-200 { animation-delay: 0.2s; }
+        .animate-fade-in-up.delay-400 { animation-delay: 0.4s; }
+        .animate-fade-in-up.delay-600 { animation-delay: 0.6s; }
+        .animate-rotate-in { animation: rotate-in 1s ease-in-out forwards; opacity: 0; }
+        
+        .hero-background {
+            background: linear-gradient(135deg, #1f2937, #3b82f6);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://uploads-ssl.webflow.com/6451659a5840285a86a68393/648b2611a14187e1451f47c3_hero-background-2.svg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
+        }
+
+        .section-light-bg {
+            background-color: #1a222e;
+            position: relative;
+            overflow: hidden;
+        }
+        .section-light-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://uploads-ssl.webflow.com/6451659a5840285a86a68393/648b2611a14187e1451f47c3_hero-background-2.svg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.05;
+            animation: flowing-lines 20s linear infinite;
+        }
+
+        .card {
+            background-color: #1a222e;
+            border: 1px solid #2d3748;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: #f7f9fc;
+        }
+        
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            border-color: #3b82f6;
+        }
+
+        .section-title {
+            color: #e0f2fe;
+        }
+
+        .section-subtitle {
+            color: #9ca3af;
+        }
+
+        .icon-box {
+            background-color: #2563eb;
+            color: #ffffff;
+            border-radius: 0.75rem;
+            padding: 0.75rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Styling for the tool cards grid */
+        #tools-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1rem;
+            transition: opacity 0.5s ease;
+        }
+        .tool-card img {
+            transition: transform 0.3s ease;
+        }
+        .tool-card:hover img {
+            transform: scale(1.1);
+        }
+
+        /* New styling for a smooth collapsible details section */
+        .project-details-container {
+            display: none;
+            overflow: hidden;
+            grid-column: 1 / -1;
+            background-color: #2d3748;
+            border-radius: 1rem;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+            margin-top: 1rem;
+            transform-origin: top;
+            animation: expandDetails 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        @keyframes expandDetails {
+            from { transform: scaleY(0); opacity: 0; }
+            to { transform: scaleY(1); opacity: 1; }
+        }
+        .project-details-container.show {
+            display: grid;
+        }
+
+        /* Modal for Activities */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: #1f2937;
+            padding: 2rem;
+            border-radius: 1rem;
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #f7f9fc;
+        }
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #9ca3af;
+        }
+        .image-gallery {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 1rem;
+            align-items: center;
+        }
+        .image-gallery img {
+            max-width: 80vw;
+            height: auto;
+            border-radius: 0.5rem;
+            scroll-snap-align: center;
+            object-fit: contain;
+        }
+
+        /* Timeline styles */
+        .timeline-container {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .timeline-container::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: #2d3748;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            right: -17px;
+            background-color: #1a222e;
+            border: 4px solid #3b82f6;
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        .timeline-item.left {
+            left: 0;
+        }
+        .timeline-item.right {
+            left: 50%;
+        }
+        .timeline-item.right::after {
+            left: -16px;
+        }
+        .timeline-content {
+            padding: 20px 30px;
+            background-color: #1a222e;
+            position: relative;
+            border-radius: 6px;
+        }
+        .timeline-date {
+            padding: 8px 12px;
+            background-color: #3b82f6;
+            color: #fff;
+            border-radius: 6px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        /* Responsiveness for timeline */
+        @media screen and (max-width: 600px) {
+            .timeline-container::after {
+                left: 31px;
+            }
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            .timeline-item.right {
+                left: 0%;
+            }
+            .timeline-item.left::after, .timeline-item.right::after {
+                left: 15px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+<!-- Hero Section -->
+<header class="hero-background text-white py-20 md:py-32">
+    <div class="container mx-auto px-4 relative z-10 grid md:grid-cols-2 gap-12 items-center">
+        <!-- Profile Picture and Stats Section -->
+        <div class="flex flex-col items-center md:items-start text-center md:text-left">
+            <div class="mb-8 w-60 h-60 mx-auto md:mx-0 animate-rotate-in">
+                <img src="assets/img/Foto_Joshua.jpg" alt="Profile Picture" class="w-full h-full object-cover rounded-full border-4 border-white shadow-lg">
+            </div>
+            
+            <div class="mt-8 flex flex-wrap justify-center md:justify-start items-center gap-8 animate-fade-in-up delay-600">
+                <div class="text-center">
+                    <p class="text-4xl font-bold">15+</p>
+                    <p class="text-sm opacity-80">Projects</p>
+                </div>
+                <div class="text-center">
+                    <p class="text-4xl font-bold">8+</p>
+                    <p class="text-sm opacity-80">Technologies</p>
+                </div>
+                <div class="text-center">
+                    <p class="text-4xl font-bold">100%</p>
+                    <p class="text-sm opacity-80">Dedication</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bio and CTA Section -->
+        <div class="flex flex-col justify-center items-center md:items-start text-center md:text-left">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-4 animate-fade-in-up">
+                Joshua Getti Hutauruk
+            </h1>
+            <p class="text-base md:text-lg lg:text-xl max-w-3xl mb-8 opacity-90 animate-fade-in-up delay-200">
+                Hi, my name is Joshua, and I’m currently pursuing a Bachelor’s degree in Computer Information Systems at Bina Nusantara University. I have a strong passion for technology, problem-solving, and continuous learning, especially in areas like software development, AI, and full-stack projects.
+                Beyond academics, I’ve been involved in student organizations, social campaigns, and hackathons, where I developed teamwork, leadership, and communication skills. I enjoy exploring new tools, building projects that make life easier, and sharing knowledge with others.
+                In my free time, I like reading books, playing instruments, and computer games, which balance my curiosity for tech with creativity and fun.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center md:justify-start items-center space-y-4 sm:space-y-0 sm:space-x-4 animate-fade-in-up delay-400">
+                <a href="#projects" class="inline-block bg-white text-blue-600 font-medium py-3 px-6 rounded-lg shadow-lg hover:bg-gray-200 transition-colors duration-300">
+                    View My Projects
+                </a>
+                <a href="#contact" class="inline-block border border-white text-white font-medium py-3 px-6 rounded-lg hover:bg-white hover:text-blue-600 transition-colors duration-300">
+                    Get In Touch
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Featured Projects Section -->
+<section id="projects" class="py-16 md:py-24 section-light-bg">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-extrabold section-title">Featured Projects</h2>
+            <p class="mt-2 text-base md:text-lg section-subtitle max-w-2xl mx-auto">
+                I am interested in exploring the intersection of business and technology through innovative solutions. Click on any project to see detailed contributions and technical implementations.
+            </p>
+        </div>
+        
+        <div id="projects-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Project Card 1 -->
+            <div class="card p-6 project-card-item" data-project-id="project1">
+                <img src="assets/img/Project 1/Screenshot 2025-09-23 194953.png" alt="Project 1" class="rounded-md mb-4 w-full h-auto object-cover">
+                <h3 class="text-xl font-bold mb-2">Stora</h3>
+                <p class="text-sm text-gray-400 mb-4">
+                    StorageApp is a file management platform where users can upload, store, and process documents. It combines Laravel (PHP) as the main application backend with Python services for advanced file handling.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">MySQL</span>
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Laravel</span>
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Python</span>
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Python FastAPI Service</span>
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Docker Compose</span>
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">SQL Server</span>
+                </div>
+                <a class="details-toggle text-blue-400 font-medium hover:underline flex items-center mb-4 cursor-pointer" data-target="project1">
+                    <span>Show Details & Contributions</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </a>
+            </div>
+            
+            <!-- Project Card 2 -->
+            <div class="card p-6 project-card-item" data-project-id="project2">
+                <img src="assets/img/Project 2/Logo Track.png" alt="Project 2" class="rounded-md mb-4 w-full h-auto object-cover">
+                <h3 class="text-xl font-bold mb-2">Habit Tracker</h3>
+                <p class="text-sm text-gray-400 mb-4">
+                    Developed project for users that helps user in tracking their everyday activities
+                </p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Flutter</span>
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Dart</span>
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Firebase</span>
+                </div>
+                <a class="details-toggle text-blue-400 font-medium hover:underline flex items-center mb-4 cursor-pointer" data-target="project2">
+                    <span>Show Details & Contributions</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Project Card 3 -->
+            <div class="card p-6 project-card-item" data-project-id="project3">
+                <img src="assets/img/Project 3/Screenshot 2025-09-24 125324.png" alt="Project 3" class="rounded-md mb-4 w-full h-auto object-cover">
+                <h3 class="text-xl font-bold mb-2">KosYuk!</h3>
+                <p class="text-sm text-gray-400 mb-4">
+                    KosYuk is a idea about web and mobile-based digital platform that helps students and young workers find boarding houses easily, quickly and reliably in the surrounding area.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Research</span>
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Data Analyst</span>
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Design</span>
+                </div>
+                <a class="details-toggle text-blue-400 font-medium hover:underline flex items-center mb-4 cursor-pointer" data-target="project3">
+                    <span>Show Details & Contributions</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Project Card 4 -->
+            <div class="card p-6 project-card-item" data-project-id="project4">
+                <img src="assets/img/Project 4/Screenshot 2025-09-24 130101.png" alt="Project 4" class="rounded-md mb-4 w-full h-auto object-cover">
+                <h3 class="text-xl font-bold mb-2">BKENTWorkshop</h3>
+                <p class="text-sm text-gray-400 mb-4">
+                    Our product idea that specializes in UI/UX development for applications that focus on workshop services. We are committed to providing solutions that make it easier for motorists to repair or maintain their vehicles effectively and efficiently.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Research</span>
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Data Analyst</span>
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Design</span>
+                </div>
+                <a class="details-toggle text-blue-400 font-medium hover:underline flex items-center mb-4 cursor-pointer" data-target="project4">
+                    <span>Show Details & Contributions</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </a>
+            </div>
+            
+            <!-- Project Card 5 -->
+            <div class="card p-6 project-card-item" data-project-id="project5">
+                <img src="assets/img/Project 7/Screenshot 2025-09-24 194700.png" alt="Project 6" class="rounded-md mb-4 w-full h-auto object-cover">
+                <h3 class="text-xl font-bold mb-2">Titanic Survival Prediction</h3>
+                <p class="text-sm text-gray-400 mb-4">
+                    This data analysis project uses machine learning models to predict passenger survival on the Titanic.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Python</span>
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Pandas</span>
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Scikit-learn</span>
+                </div>
+                <a class="details-toggle text-blue-400 font-medium hover:underline flex items-center mb-4 cursor-pointer" data-target="project5">
+                    <span>Show Details & Contributions</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Project Card 6 -->
+            <div class="card p-6 project-card-item" data-project-id="project6">
+                <img src="assets/img/Project 6/Screenshot 2025-09-24 153925.png" alt="Project 7" class="rounded-md mb-4 w-full h-auto object-cover">
+                <h3 class="text-xl font-bold mb-2">Healink</h3>
+                <p class="text-sm text-gray-400 mb-4">
+                    Healink, is a comprehensive application designed to facilitate travel planning and execution. The app offers a variety of features that cater to various aspects of travel, from booking flights and accommodation to navigating destinations and managing travel plans.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Research</span>
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Data Analyst</span>
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Design</span>
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">UI/UX</span>
+                </div>
+                <a class="details-toggle text-blue-400 font-medium hover:underline flex items-center mb-4 cursor-pointer" data-target="project6">
+                    <span>Show Details & Contributions</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Project Card 7 -->
+            <div class="card p-6 project-card-item" data-project-id="project7">
+                <img src="assets/img/Project 8/Screenshot 2025-09-24 155529.png" alt="Project 8" class="rounded-md mb-4 w-full h-auto object-cover">
+                <h3 class="text-xl font-bold mb-2">Heart Detection Data </h3>
+                <p class="text-sm text-gray-400 mb-4">
+                    The development of artificial intelligence (AI) and machine learning technology has brought significant progress in various fields, including the health sector. One of the biggest challenges in the medical world is the early detection of non-communicable diseases, such as heart disease, which is the main cause of death worldwide. With advances in machine learning, this data can be used to develop faster and more accurate heart disease risk prediction models. This model allows medical personnel to carry out early detection, provide more appropriate interventions, and optimize resources in the health care system.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Google Cloud</span>
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Data Analyst</span>
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Python</span>
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Machine Learning</span>
+                </div>
+                <a class="details-toggle text-blue-400 font-medium hover:underline flex items-center mb-4 cursor-pointer" data-target="project7">
+                    <span>Show Details & Contributions</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Project Card 8 -->
+            <div class="card p-6 project-card-item" data-project-id="project8">
+                <img src="assets/img/Project 9/Screenshot 2025-09-24 181925.png" alt="Project 8" class="rounded-md mb-4 w-full h-auto object-cover">
+                <h3 class="text-xl font-bold mb-2">Speech & Voice Recognition </h3>
+                <p class="text-sm text-gray-400 mb-4">
+                    This project is present as an effort to combine two important capabilities, namely emotion detection and voice transcription, to see the system process audio and analyze the emotions detected in the audio then convert it into text
+                </p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Google Cloud</span>
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Data Analyst</span>
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Python</span>
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Machine Learning</span>
+                </div>
+                <a class="details-toggle text-blue-400 font-medium hover:underline flex items-center mb-4 cursor-pointer" data-target="project8">
+                    <span>Show Details & Contributions</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </a>
+            </div>
+            
+            <!-- Project Card 9 -->
+            <div class="card p-6 project-card-item" data-project-id="project9">
+                <img src="assets/img/Project 10/Screenshot 2025-09-24 182311.png" alt="Project 8" class="rounded-md mb-4 w-full h-auto object-cover">
+                <h3 class="text-xl font-bold mb-2">Database Design </h3>
+                <p class="text-sm text-gray-400 mb-4">
+                    A well-structured database is very important. This database will facilitate data storage, retrieval, and management for the proposed system, ensuring that all customer interactions are captured and utilized effectively.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Report</span>
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Google Docs</span>
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Microsoft Access</span>
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Figma</span>
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Visual Paradigm</span>
+                </div>
+                <a class="details-toggle text-blue-400 font-medium hover:underline flex items-center mb-4 cursor-pointer" data-target="project9">
+                    <span>Show Details & Contributions</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Dynamic Project Details Containers (hidden by default) -->
+        <div id="project1-details" class="project-details-container p-8 col-span-1 sm:col-span-2 lg:col-span-3 grid md:grid-cols-2 gap-8"></div>
+        <div id="project2-details" class="project-details-container p-8 col-span-1 sm:col-span-2 lg:col-span-3 grid md:grid-cols-2 gap-8"></div>
+        <div id="project3-details" class="project-details-container p-8 col-span-1 sm:col-span-2 lg:grid-cols-3 gap-8"></div>
+        <div id="project4-details" class="project-details-container p-8 col-span-1 sm:col-span-2 lg:grid-cols-3 gap-8"></div>
+        <div id="project5-details" class="project-details-container p-8 col-span-1 sm:col-span-2 lg:grid-cols-3 gap-8"></div>
+        <div id="project6-details" class="project-details-container p-8 col-span-1 sm:col-span-2 lg:grid-cols-3 gap-8"></div>
+        <div id="project7-details" class="project-details-container p-8 col-span-1 sm:col-span-2 lg:grid-cols-3 gap-8"></div>
+        <div id="project8-details" class="project-details-container p-8 col-span-1 sm:col-span-2 lg:grid-cols-3 gap-8"></div>
+        <div id="project9-details" class="project-details-container p-8 col-span-1 sm:col-span-2 lg:grid-cols-3 gap-8"></div>
+    </div>
+</section>
+
+<!-- Experience Section (Timeline) -->
+<section id="experience" class="py-16 md:py-24 section-light-bg">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-extrabold section-title">My Experience</h2>
+            <p class="mt-2 text-base md:text-lg section-subtitle max-w-2xl mx-auto">
+                A brief overview of my professional and academic journey, highlighting key milestones and growth.
+            </p>
+        </div>
+
+        <div class="timeline-container">
+            <!-- Timeline Item 1 -->
+            <div class="timeline-item left">
+                <div class="timeline-content card">
+                    <div class="timeline-date">2023 - Present</div>
+                    <h3 class="text-xl font-bold mb-2">Student, Bina Nusantara University</h3>
+                    <p class="text-sm text-gray-400">Pursuing a Bachelor of Computer Information Systems. Focused on software development, data analytics, and UI/UX design.</p>
+                </div>
+            </div>
+
+            <!-- Timeline Item 2 -->
+            <div class="timeline-item right">
+                <div class="timeline-content card">
+                    <div class="timeline-date">2022 - 2023</div>
+                    <h3 class="text-xl font-bold mb-2">Vice President, BEM Student Council</h3>
+                    <p class="text-sm text-gray-400">Led a team of 15 members to organize campus-wide events, workshops, and community engagement initiatives. Developed strong leadership and organizational skills.</p>
+                </div>
+            </div>
+
+            <!-- Timeline Item 3 -->
+            <div class="timeline-item left">
+                <div class="timeline-content card">
+                    <div class="timeline-date">2021 - 2022</div>
+                    <h3 class="text-xl font-bold mb-2">Project Manager, Kampus Merdeka Program</h3>
+                    <p class="text-sm text-gray-400">Managed a team to develop a mobile application prototype. Oversaw project lifecycle from ideation to final presentation, ensuring all milestones were met.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services & Expertise Section -->
+<section id="services" class="py-16 md:py-24 section-light-bg">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-extrabold section-title">My Expertise</h2>
+            <p class="mt-2 text-base md:text-lg section-subtitle max-w-2xl mx-auto">
+                Specialized in bridging business needs with technology solutions. Here's how I can help transform your business processes.
+            </p>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Service Card 1 -->
+            <div class="card p-6 flex flex-col items-start">
+                <div class="icon-box mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0h6m-6 0h6m-6 0h4m-4 0h2m-2 0h2"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold mb-2">Web & Application Development</h3>
+                <p class="text-sm text-gray-400 mb-4">
+                    Build and maintain responsive web and mobile applications with modern frameworks.
+                </p>
+                <ul class="text-sm text-gray-400 space-y-2">
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Frontend</li>
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Backend</li>
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Mobile</li>
+                </ul>
+            </div>
+            
+            <!-- Service Card 2 -->
+            <div class="card p-6 flex flex-col items-start">
+                <div class="icon-box mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10m8 0h4m-4 0h-4m4 0h2m-2 0h2m-2 0h2M4 7h16a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V9a2 2 0 012-2z" />
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold mb-2">Database Design & Management</h3>
+                <p class="text-sm text-gray-400 mb-4">
+                    Design and optimize database systems for performance and scalability.
+                </p>
+                <ul class="text-sm text-gray-400 space-y-2">
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Database Architecture</li>
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Query Optimization</li>
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Data Migration</li>
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Data Modeling</li>
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Backup Solutions</li>
+                </ul>
+            </div>
+
+            <!-- Service Card 3 -->
+            <div class="card p-6 flex flex-col items-start">
+                <div class="icon-box mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 21h7a2 2 0 002-2V9a2 2 0 00-2-2h-7m-6 2h2m-2-2h4a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2v-6a2 2 0 012-2zm0 0h12" />
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold mb-2">System Analysis & Integration</h3>
+                <p class="text-sm text-gray-400 mb-4">
+                    Analyze and improve existing systems, while integrating APIs and services for better functionality.
+                </p>
+                <ul class="text-sm text-gray-400 space-y-2">
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Requirements Gathering & Documentation</li>
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Solution Architecture</li>
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>API Integration</li>
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Gap Analysis</li>
+                </ul>
+            </div>
+            
+            <!-- Service Card 4 -->
+            <div class="card p-6 flex flex-col items-start">
+                <div class="icon-box mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold mb-2">UI/UX Design & Prototyping</h3>
+                <p class="text-sm text-gray-400 mb-4">
+                    Create intuitive interfaces and user experiences for applications.
+                </p>
+                <ul class="text-sm text-gray-400 space-y-2">
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Wireframing & Prototyping</li>
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>User-Centered Design</li>
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Usability Testing</li>
+                </ul>
+            </div>
+
+            <!-- Service Card 5 -->
+            <div class="card p-6 flex flex-col items-start">
+                <div class="icon-box mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold mb-2">Digital Learning & AI Awareness</h3>
+                <p class="text-sm text-gray-400 mb-4">
+                    Develop educational content and tools that leverage AI responsibly.
+                </p>
+                <ul class="text-sm text-gray-400 space-y-2">
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>AI Tools</li>
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>AI Best Practice</li>
+                </ul>
+            </div>
+
+            <!-- Service Card 6 -->
+            <div class="card p-6 flex flex-col items-start">
+                <div class="icon-box mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold mb-2">Collaboration</h3>
+                <p class="text-sm text-gray-400 mb-4">
+                    Guide organizations through digital transformation initiatives with strategic technology adoption.
+                </p>
+                <ul class="text-sm text-gray-400 space-y-2">
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Coordination</li>
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Time Management</li>
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Training Programs</li>
+                    <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Cross-Functional Collaboration</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Tools & Applications Section -->
+<section id="tools" class="py-16 md:py-24 section-light-bg">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-extrabold section-title">Tools & Applications</h2>
+            <p class="mt-2 text-base md:text-lg section-subtitle max-w-2xl mx-auto">
+                Proficient in various business and technology tools that enable data-driven decision making and process optimization.
+            </p>
+        </div>
+        
+        <div class="p-8 rounded-2xl shadow-lg card">
+            <div class="flex justify-center mb-8 space-x-2 flex-wrap gap-2">
+                <button class="tab-button px-4 py-2 rounded-lg font-medium text-sm text-blue-400 bg-blue-900 transition-colors duration-200 active-tab" data-category="development">Development</button>
+                <button class="tab-button px-4 py-2 rounded-lg font-medium text-sm text-gray-400 bg-gray-800 hover:bg-gray-700 transition-colors duration-200" data-category="database">Database</button>
+                <button class="tab-button px-4 py-2 rounded-lg font-medium text-sm text-gray-400 bg-gray-800 hover:bg-gray-700 transition-colors duration-200" data-category="business">Business</button>
+                <button class="tab-button px-4 py-2 rounded-lg font-medium text-sm text-gray-400 bg-gray-800 hover:bg-gray-700 transition-colors duration-200" data-category="cloud">Cloud</button>
+                <button class="tab-button px-4 py-2 rounded-lg font-medium text-sm text-gray-400 bg-gray-800 hover:bg-gray-700 transition-colors duration-200" data-category="other">Other</button>
+                <button class="tab-button px-4 py-2 rounded-lg font-medium text-sm text-gray-400 bg-gray-800 hover:bg-gray-700 transition-colors duration-200" data-category="all">All</button>
+            </div>
+            <div id="tools-container" class="tools-grid-layout">
+                <!-- Tool Cards: All in one place. CSS handles filtering and layout. -->
+                <div class="card p-4 flex flex-col items-center text-center tool-card" data-category="development">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">Python</h3>
+                    <p class="text-sm text-blue-400 mb-2">Programming</p>
+                </div>
+                <div class="card p-4 flex flex-col items-center text-center tool-card" data-category="development">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">JavaScript</h3>
+                    <p class="text-sm text-blue-400 mb-2">Web Dev</p>
+                </div>
+                <div class="card p-4 flex flex-col items-center text-center tool-card" data-category="development">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">React</h3>
+                    <p class="text-sm text-blue-400 mb-2">UI Dev</p>
+                </div>
+                <div class="card p-4 flex flex-col items-center text-center tool-card" data-category="development">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">Git</h3>
+                    <p class="text-sm text-blue-400 mb-2">Version Control</p>
+                </div>
+                <div class="card p-4 flex flex-col items-center text-center tool-card" data-category="development">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">GitHub</h3>
+                    <p class="text-sm text-blue-400 mb-2">Collaboration</p>
+                </div>
+                <div class="card p-4 flex flex-col items-center text-center tool-card" data-category="development">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" alt="VS Code" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">VS Code</h3>
+                    <p class="text-sm text-blue-400 mb-2">Code Editor</p>
+                </div>
+                <div class="card p-4 flex flex-col items-center text-center tool-card" data-category="development">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/eclipse/eclipse-original.svg" alt="Eclipse" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">Eclipse</h3>
+                    <p class="text-sm text-blue-400 mb-2">IDE</p>
+                </div>
+                <div class="card p-4 flex flex-col items-center text-center tool-card" data-category="development">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" alt="Figma" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">Figma</h3>
+                    <p class="text-sm text-blue-400 mb-2">UI/UX Design</p>
+                </div>
+                <div class="card p-4 flex flex-col items-center text-center tool-card" data-category="development">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">HTML</h3>
+                    <p class="text-sm text-blue-400 mb-2">Frontend</p>
+                </div>
+                <div class="card p-4 flex flex-col items-center text-center tool-card" data-category="development">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">CSS</h3>
+                    <p class="text-sm text-blue-400 mb-2">Frontend</p>
+                </div>
+                <div class="card p-4 flex flex-col items-center text-center tool-card" data-category="development">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jquery/jquery-original.svg" alt="jQuery" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">jQuery</h3>
+                    <p class="text-sm text-blue-400 mb-2">Frontend</p>
+                </div>
+                <div class="card p-4 flex flex-col items-center text-center tool-card" data-category="development">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg" alt="Vue" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">Vue</h3>
+                    <p class="text-sm text-blue-400 mb-2">Frontend</p>
+                </div>
+                <div class="card p-4 flex flex-col items-center text-center tool-card" data-category="development">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/astro.svg" alt="Astro" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">Astro</h3>
+                    <p class="text-sm text-blue-400 mb-2">Frontend</p>
+                </div>
+                <div class="card p-4 flex flex-col items-center text-center tool-card" data-category="development">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" alt="PHP" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">PHP</h3>
+                    <p class="text-sm text-blue-400 mb-2">Backend</p>
+                </div>
+                <div class="card p-4 flex flex-col items-center text-center tool-card" data-category="development">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg" alt="Laravel" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">Laravel</h3>
+                    <p class="text-sm text-blue-400 mb-2">Backend</p>
+                </div>
+                <div class="card p-4 flex flex-col items-center text-center tool-card" data-category="development">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">Node.js</h3>
+                    <p class="text-sm text-blue-400 mb-2">Backend</p>
+                </div>
+                <div class="card p-4 flex flex-col items-center text-center tool-card" data-category="development">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" alt="Express" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">Express</h3>
+                    <p class="text-sm text-blue-400 mb-2">Backend</p>
+                </div>
+                <div class="card p-4 flex flex-col items-center text-center tool-card" data-category="development">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/nestjs.svg" alt="NestJS" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">NestJS</h3>
+                    <p class="text-sm text-blue-400 mb-2">Backend</p>
+                </div>
+                <div class="card p-4 flex flex-col items-center text-center tool-card" data-category="development">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/adonisjs/adonisjs-original.svg" alt="AdonisJS" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">AdonisJS</h3>
+                    <p class="text-sm text-blue-400 mb-2">Backend</p>
+                </div>
+                <div class="card p-4 flex flex-col items-center text-center tool-card" data-category="development">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/flutter.svg" alt="Flutter" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">Flutter</h3>
+                    <p class="text-sm text-blue-400 mb-2">Mobile</p>
+                </div>
+                <div class="card p-4 flex flex-col items-center text-center tool-card" data-category="development">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dart/dart-original.svg" alt="Dart" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">Dart</h3>
+                    <p class="text-sm text-blue-400 mb-2">Mobile</p>
+                </div>
+
+                <!-- Database -->
+                <div class="card p-4 flex flex-col items-center text-center tool-card hidden" data-category="database">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoftsqlserver/microsoftsqlserver-plain.svg" alt="SQL Server" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">SQL Server</h3>
+                    <p class="text-sm text-blue-400 mb-2">Database</p>
+                </div>
+                <div class="card p-4 flex flex-col items-center text-center tool-card hidden" data-category="database">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">MySQL</h3>
+                    <p class="text-sm text-blue-400 mb-2">Database</p>
+                </div>
+                <div class="card p-4 flex flex-col items-center text-center tool-card hidden" data-category="database">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg" alt="Firebase" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">Firebase</h3>
+                    <p class="text-sm text-blue-400 mb-2">Database</p>
+                </div>
+
+                <!-- Business -->
+                <div class="card p-4 flex flex-col items-center text-center tool-card hidden" data-category="business">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/microsoft-excel.svg" alt="Microsoft Excel" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">Microsoft Excel</h3>
+                    <p class="text-sm text-blue-400 mb-2">Spreadsheet</p>
+                </div>
+                <div class="card p-4 flex flex-col items-center text-center tool-card hidden" data-category="business">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" alt="Figma" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">Figma</h3>
+                    <p class="text-sm text-blue-400 mb-2">Design</p>
+                </div>
+                <div class="card p-4 flex flex-col items-center text-center tool-card hidden" data-category="business">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/microsoftoffice.svg" alt="Microsoft Office" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">Microsoft Office</h3>
+                    <p class="text-sm text-blue-400 mb-2">Productivity</p>
+                </div>
+                <div class="card p-4 flex flex-col items-center text-center tool-card hidden" data-category="business">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/miro.svg" alt="Miro" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">Miro</h3>
+                    <p class="text-sm text-blue-400 mb-2">Collaboration</p>
+                </div>
+                <div class="card p-4 flex flex-col items-center text-center tool-card hidden" data-category="business">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/canva.svg" alt="Canva" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">Canva</h3>
+                    <p class="text-sm text-blue-400 mb-2">Design</p>
+                </div>
+                <div class="card p-4 flex flex-col items-center text-center tool-card hidden" data-category="business">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/microsoftoutlook.svg" alt="Outlook" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">Outlook</h3>
+                    <p class="text-sm text-blue-400 mb-2">Email</p>
+                </div>
+                <div class="card p-4 flex flex-col items-center text-center tool-card hidden" data-category="business">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/microsoftteams.svg" alt="Microsoft Teams" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">Microsoft Teams</h3>
+                    <p class="text-sm text-blue-400 mb-2">Collaboration</p>
+                </div>
+                <div class="card p-4 flex flex-col items-center text-center tool-card hidden" data-category="business">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/zoom.svg" alt="Zoom" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">Zoom</h3>
+                    <p class="text-sm text-blue-400 mb-2">Meetings</p>
+                </div>
+                <div class="card p-4 flex flex-col items-center text-center tool-card hidden" data-category="business">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/googlemeet.svg" alt="Google Meet" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">Google Meet</h3>
+                    <p class="text-sm text-blue-400 mb-2">Meetings</p>
+                </div>
+
+                <!-- Cloud -->
+                <div class="card p-4 flex flex-col items-center text-center tool-card hidden" data-category="cloud">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/googlecloud/googlecloud-original.svg" alt="Google Cloud" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">Google Cloud</h3>
+                    <p class="text-sm text-blue-400 mb-2">Cloud Computing</p>
+                </div>
+                <div class="card p-4 flex flex-col items-center text-center tool-card hidden" data-category="cloud">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg" alt="Azure" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">Microsoft Azure</h3>
+                    <p class="text-sm text-blue-400 mb-2">Cloud Computing</p>
+                </div>
+
+                <!-- Other -->
+                <div class="card p-4 flex flex-col items-center text-center tool-card hidden" data-category="other">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/adobeaftereffects.svg" alt="UI/UX Design" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">UI/UX Design</h3>
+                    <p class="text-sm text-blue-400 mb-2">Design</p>
+                </div>
+                <div class="card p-4 flex flex-col items-center text-center tool-card hidden" data-category="other">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/axios.svg" alt="API Integration" class="h-10 w-10 mb-2">
+                    <h3 class="text-lg font-bold">API Integration</h3>
+                    <p class="text-sm text-blue-400 mb-2">Development</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Activities Section -->
+<section id="activities" class="py-16 md:py-24 section-light-bg">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-extrabold section-title">Activities</h2>
+            <p class="mt-2 text-base md:text-lg section-subtitle max-w-2xl mx-auto">
+                Showcasing my involvement in community service and other impactful activities.
+            </p>
+        </div>
+        
+        <div id="activities-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Activity Card 1: Interfaith Dialogue -->
+            <div class="card p-6 activity-card-item" data-activity="interfaith">
+                <img src="assets/img/Activity 3/IMG2.png" alt="Interfaith Dialogue" class="rounded-md mb-4 w-full h-auto object-cover">
+                <h3 class="text-xl font-bold mb-2">Interfaith Dialogue: Key to Tolerance and Harmony</h3>
+                <p class="text-sm text-gray-400 mb-4">
+                    Collaborated with a 5-person team to interview participants and compile a report on promoting interfaith tolerance.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Teamwork</span>
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Research</span>
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Reporting</span>
+                </div>
+                <a class="view-pictures-toggle text-blue-400 font-medium hover:underline flex items-center mb-4 cursor-pointer" data-activity="interfaith">
+                    <span>View Pictures</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l-4.586-4.586a2 2 0 00-2.828 0L4 16m4 0l4.586-4.586a2 2 0 012.828 0L20 16" />
+                    </svg>
+                </a>
+            </div>
+            
+            <!-- Activity Card 2: SDG 15 Campaign -->
+            <div class="card p-6 activity-card-item" data-activity="sdg15">
+                <img src="assets/img/Activity 2/Observasi1.jpg" alt="SDG 15 Campaign" class="rounded-md mb-4 w-full h-auto object-cover">
+                <h3 class="text-xl font-bold mb-2">Volunteer Campaign on SDG 15: Life on Land</h3>
+                <p class="text-sm text-gray-400 mb-4">
+                    Directed a 5-person team to develop and present a campaign on sustainable land use, including interviews and a filmed report with a recycling company.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Leadership</span>
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Sustainability</span>
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Campaign</span>
+                </div>
+                <a class="view-pictures-toggle text-blue-400 font-medium hover:underline flex items-center mb-4 cursor-pointer" data-activity="sdg15">
+                    <span>View Pictures</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l-4.586-4.586a2 2 0 00-2.828 0L4 16m4 0l4.586-4.586a2 2 0 012.828 0L20 16" />
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Activity Card 3: Anti-Corruption Campaign -->
+            <div class="card p-6 activity-card-item" data-activity="anticorruption">
+                <img src="assets/img/Activity 1/Photo Dokumentasi 1 (Kelompok 4) (1).jpg" alt="Anti-Corruption Campaign" class="rounded-md mb-4 w-full h-auto object-cover">
+                <h3 class="text-xl font-bold mb-2">Anti-Corruption Awareness Campaign</h3>
+                <p class="text-sm text-gray-400 mb-4">
+                    Led a 3-person team to design and deliver an anti-corruption awareness campaign for teachers and 30 students, including research and structured content presentation.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Leadership</span>
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Awareness</span>
+                    <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Education</span>
+                </div>
+                <a class="view-pictures-toggle text-blue-400 font-medium hover:underline flex items-center mb-4 cursor-pointer" data-activity="anticorruption">
+                    <span>View Pictures</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l-4.586-4.586a2 2 0 00-2.828 0L4 16m4 0l4.586-4.586a2 2 0 012.828 0L20 16" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="py-16 md:py-24 section-light-bg">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-extrabold section-title">Let's Connect</h2>
+            <p class="mt-2 text-base md:text-lg section-subtitle max-w-2xl mx-auto">
+                Interested in collaborating or have questions about business information technology? I'd love to hear from you and discuss potential opportunities.
+            </p>
+        </div>
+        <div class="max-w-4xl mx-auto p-8 rounded-2xl shadow-lg card">
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Send a Message Form -->
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">Send a Message</h3>
+                    <form>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label for="full-name" class="block text-sm font-medium text-gray-400">Full Name</label>
+                                <input type="text" id="full-name" name="full-name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 bg-gray-800 text-white">
+                            </div>
+                            <div>
+                                <label for="email-address" class="block text-sm font-medium text-gray-400">Email Address</label>
+                                <input type="email" id="email-address" name="email-address" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 bg-gray-800 text-white">
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label for="subject" class="block text-sm font-medium text-gray-400">Subject</label>
+                            <input type="text" id="subject" name="subject" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 bg-gray-800 text-white">
+                        </div>
+                        <div class="mb-4">
+                            <label for="message" class="block text-sm font-medium text-gray-400">Message</label>
+                            <textarea id="message" name="message" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 bg-gray-800 text-white"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-blue-600 text-white font-medium py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Get in Touch -->
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">My Contact</h3>
+                    <p class="text-gray-400 mb-6">
+                        I'm always open to discussing new opportunities, innovative projects, or answering questions about myself.
+                    </p>
+                    <ul class="space-y-4 text-gray-400">
+                        <li class="flex items-center">
+                            <div class="icon-box mr-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <a href="mailto:joshua.hutaurukl@gmail.com" class="hover:underline">joshua.hutaurukl@gmail.com</a>
+                        </li>
+                        <li class="flex items-center">
+                            <div class="icon-box mr-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                </svg>
+                            </div>
+                            <span>+62 822 9919 1799</span>
+                        </li>
+                        <li class="flex items-center">
+                            <div class="icon-box mr-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                            </div>
+                            <span>Bekasi, Indonesia</span>
+                        </li>
+                        <li class="flex items-center">
+                            <div class="icon-box mr-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
+                                    <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM4 19h4v-7H4z"/>
+                                    <path d="M6 3a2 2 0 100 4 2 2 0 000-4z"/>
+                                </svg>
+                            </div>
+                            <a href="http://www.linkedin.com/in/joshua-hutauruk-204b1433a" target="_blank" class="hover:underline">linkedin.com/in/Joshua</a>
+                        </li>
+                        <li class="flex items-center">
+                            <div class="icon-box mr-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
+                                    <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.867-.013-1.708-2.783.601-3.366-1.34-3.366-1.34-.454-1.154-1.109-1.462-1.109-1.462-.908-.62.069-.608.069-.608 1.004.07 1.531 1.032 1.531 1.032.892 1.529 2.341 1.085 2.91.829.091-.64.351-1.085.636-1.336-2.22-.251-4.555-1.11-4.555-4.941 0-1.091.39-1.984 1.029-2.682-.103-.251-.446-1.268.097-2.658 0 0 .84-.27 2.75 1.025a9.567 9.567 0 012.55-.344c.833.003 1.664.114 2.457.324 1.909-1.29 2.748-1.025 2.748-1.025.546 1.39.202 2.407.099 2.658.64.698 1.028 1.59 1.028 2.682 0 3.84-2.339 4.686-4.568 4.933.359.31.678.924.678 1.861 0 1.347-.012 2.433-.012 2.766 0 .269.18.577.688.483C21.144 20.2 24 16.444 24 12.017A10.017 10.017 0 0012 2z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <a href="https://github.com/Josh882005" target="_blank" class="hover:underline">github.com/joshua</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-gray-800 text-white py-6">
+    <div class="container mx-auto px-4 text-center text-sm opacity-75">
+        &copy; 2025 Joshua Getti Hutauruk. All rights reserved.
+    </div>
+</footer>
+
+<!-- Image Modal -->
+<div id="image-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modal-title" class="text-xl font-bold"></h3>
+            <button id="modal-close-btn" class="modal-close">
+                &times;
+            </button>
+        </div>
+        <div id="image-gallery-container" class="image-gallery">
+            <!-- Images will be dynamically inserted here -->
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Data for the detailed view
+        const projectData = {
+            project1: {
+                title: 'Stora',
+                image: 'assets/img/Project 1/Screenshot 2025-09-23 194953.png',
+                description: 'Stora is a file-management & document processing platform. It combines a Laravel (PHP) backend with Python microservices to handle file analytics, transformations, and cloud storage. Users can upload, store, search, and process documents seamlessly.',
+                contributions: [
+                    'Designed and implemented the core architecture (backend, APIs, routing)',
+                    'Built document processing pipelines using Python services',
+                    'Implemented user authentication and role-based access control',
+                    'Developed storage and querying mechanisms for documents',
+                    'Designed automated deployment using Docker Compose'
+                ],
+                technologies: ['MySQL', 'Laravel', 'Python', 'Python FastAPI Service', 'Docker Compose', 'SQL Server'],
+                images: [
+                    'assets/img/Project 1/Screenshot 2025-09-23 194953.png',
+                    'assets/img/Project 1/Screenshot 2025-09-23 195004.png',
+                    'assets/img/Project 1/Screenshot 2025-09-23 195019.png',
+                    'assets/img/Project 1/Screenshot 2025-09-23 195037.png'
+                ]
+            },
+            project2: {
+                title: 'Habit Tracker',
+                image: 'assets/img/Project 2/Logo Track.png',
+                description: 'A mobile application built with Flutter & Firebase that helps users track and maintain daily habits. It features reminders, habit streaks, and progress visualization.',
+                contributions: [
+                    'Designed intuitive, responsive UI/UX in Flutter',
+                    'Developed data synchronization and storage modules using Firebase',
+                    'Implemented reminder / notification system for habit tracking',
+                    'Created user statistics & activity visualization',
+                    'Performed cross-platform testing and debugging'
+                ],
+                technologies: ['Flutter', 'Dart', 'Firebase'],
+                images: [
+                    'assets/img/Project 2/Screenshot 2025-09-24 095136.png',
+                    'assets/img/Project 2/Screenshot 2025-09-24 095213.png',
+                    'assets/img/Project 2/Screenshot 2025-09-24 095230.png',
+                    'assets/img/Project 2/Screenshot 2025-09-24 095246.png',
+                    'assets/img/Project 2/Screenshot 2025-09-24 095315.png'
+                ],
+                reportUrl: 'https://www.canva.com/design/DAGmYGK6Zc4/8T6IaVsjh22eke4EPcL2Yg/edit?utm_content=DAGmYGK6Zc4&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton',
+                sourceUrl: 'https://github.com/Josh882005/Personal-Project.git'
+            },
+            project3: {
+                title: 'KosYuk!',
+                image: 'assets/img/Project 3/Screenshot 2025-09-24 125324.png',
+                description: 'KosYuk is a idea about web and mobile-based digital platform that helps students and young workers find boarding houses easily, quickly and reliably in the surrounding area.',
+                contributions: [
+                    'Conducted market research and user needs analysis',
+                    'Gathered and structured boarding house data for the database',
+                    'Designed UI/UX wireframes and interactive prototyping',
+                    'Implemented search & filter flows based on user criteria',
+                    'Supported user testing, feedback collection, and iteration'
+                ],
+                technologies: ['Microsoft Power Automate', 'SharePoint', 'Azure', 'C#', '.NET', 'Quartz'],
+                images: [
+                    'assets/img/Project 3/Screenshot 2025-09-24 125500.png',
+                    'assets/img/Project 3/Screenshot 2025-09-24 125511.png',
+                    'assets/img/Project 3/Screenshot 2025-09-24 125521.png'
+                ],
+                demoUrl: 'https://www.figma.com/proto/B68DJESSllMYkWVrBaMgCZ/KosYUK-?node-id=0-1&t=i8q9uIBWkAa8pDE4-1',
+                sourceUrl: 'https://www.canva.com/design/DAGmqk18uCo/PFL8ez37yyoL6JO1cKMHww/edit?utm_content=DAGmqk18uCo&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton'
+            },
+            project4: {
+                title: 'BKENTWorkshop',
+                image: 'assets/img/Project 4/Screenshot 2025-09-24 130101.png',
+                description: 'Our product idea that specializes in UI/UX development for applications that focus on workshop services. We are committed to providing solutions that make it easier for motorists to repair or maintain their vehicles effectively and efficiently.',
+                contributions: [
+                    'Researched user needs in automotive repair / maintenance domain',
+                    'Created interactive prototypes and mockups based on workflows',
+                    'Developed user interface designs and flows',
+                    'Conducted usability testing and iteration based on feedback',
+                    'Documented design guidelines and handover to development'
+                ],
+                technologies: ['Research', 'Data Analyst', 'Design'],
+                images: [
+                    'assets/img/Project 4/Screenshot 2025-09-24 130101.png'
+                ],
+                demoUrl: 'https://www.figma.com/proto/PqckfaJi7f6K7I22Z23PyI/Untitled?node-id=0-1&t=toOhJwJlIafH4AGj-1',
+                sourceUrl: 'https://www.canva.com/design/DAGz3ijbk80/f1HJ58FueU-SZfs1k1mWvg/edit?utm_content=DAGz3ijbk80&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton'
+            },
+            
+            project5: {
+                title: 'Titanic Survival Prediction',
+                image: 'assets/img/Project 7/Screenshot 2025-09-24 194700.png',
+                description: 'This data analysis project uses machine learning models to predict passenger survival on the Titanic. Demonstrates data cleaning, feature engineering, and model evaluation techniques.',
+                contributions: [
+                    'Performed exploratory data analysis to identify key features',
+                    'Preprocessed data using imputation and one-hot encoding',
+                    'Trained and evaluated multiple classification models, including Random Forest, Logistic Regression, and MLPClassifier',
+                    'Visualized model performance with confusion matrices'
+                ],
+                technologies: ['Python', 'Pandas', 'Scikit-learn', 'Matplotlib', 'Seaborn'],
+                images: [
+                    'assets/img/Project 7/Screenshot 2025-09-24 194406.png',
+                    'assets/img/Project 7/Screenshot 2025-09-24 194725.png',
+                    'assets/img/Project 7/Screenshot 2025-09-24 194732.png'
+                ],
+                reportUrl: 'https://colab.research.google.com/drive/1KIQa8GtQ4dqb9nBgbIhpPYgUoeSxQDV9?usp=sharing',
+                sourceUrl: 'https://github.com/Josh882005/Jupiter-Kaggle.git'
+            },
+            project6: {
+                title: 'Healink',
+                image: 'assets/img/Project 6/Screenshot 2025-09-24 153925.png',
+                description: 'Healink, is a comprehensive application designed to facilitate travel planning and execution. The app offers a variety of features that cater to various aspects of travel, from booking flights and accommodation to navigating destinations and managing travel plans.',
+                contributions: [
+                    'Conducted market & user research to define key user journeys and features',
+                    'Created wireframes, interactive prototypes, and UI designs',
+                    'Defined and refined information architecture and navigation flows',
+                    'Participated in usability testing and iterated the design based on feedback'
+                ],
+                technologies: ['Research', 'Data Analyst', 'Design', 'UI/UX'],
+                images: [
+                    'assets/img/Project 6/Screenshot 2025-09-24 153925.png'
+                ],
+                demoUrl: 'https://www.figma.com/proto/PdGr3d7rwLkGNPpqiWRUgN/Healink?node-id=0-1&t=1nfSezj4WI7sNUrJ-1',
+                reportUrl: 'https://www.canva.com/design/DAGz4DNVHB0/By-7ZcvdfzMe3wKLnjEbMg/edit?utm_content=DAGz4DNVHB0&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton'
+            },
+            project7: {
+                title: 'Heart Detection Data',
+                image: 'assets/img/Project 8/Screenshot 2025-09-24 155529.png',
+                description: 'The development of artificial intelligence (AI) and machine learning technology has brought significant progress in various fields, including the health sector. One of the biggest challenges in the medical world is the early detection of non-communicable diseases, such as heart disease, which is the main cause of death worldwide. With advances in machine learning, this data can be used to develop faster and more accurate heart disease risk prediction models. This model allows medical personnel to carry out early detection, provide more appropriate interventions, and optimize resources in the health care system.',
+                contributions: [
+                    'Collected and cleaned clinical / patient datasets for analysis',
+                    'Engineered features and handled data preprocessing (imputation, normalization)',
+                    'Trained and compared multiple ML models to predict heart disease risk',
+                    'Evaluated model performance (ROC, precision/recall, confusion matrix)',
+                    'Deployed model on cloud infrastructure and integrated inference API'
+                ],
+                technologies: ['Research', 'Data Analyst', 'Google Cloud', 'Machine Learning'],
+                images: [
+                    'assets/img/Project 8/Screenshot 2025-09-24 155459.png',
+                    'assets/img/Project 8/Screenshot 2025-09-24 155506.png',
+                    'assets/img/Project 8/Screenshot 2025-09-24 155520.png'
+                ],
+                demoUrl: 'https://colab.research.google.com/drive/15OLuA-58vLPf1nT_nz5Shiq6OBXF2P3V?usp=sharing',
+                reportUrl: 'https://www.canva.com/design/DAGz4Pj0R68/XrXSKOO29YgIbXsm8lAZGA/edit?utm_content=DAGz4Pj0R68&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton'
+            },
+            project8: {
+                title: 'Speech & Voice Recognition',
+                image: 'assets/img/Project 9/Screenshot 2025-09-24 181925.png',
+                description: 'This project is present as an effort to combine two important capabilities, namely emotion detection and voice transcription, to see the system process audio and analyze the emotions detected in the audio then convert it into text',
+                contributions: [
+                    'Processed and analyzed audio datasets, including feature extraction (e.g. MFCCs)',
+                    'Built emotion recognition models using supervised learning techniques',
+                    'Developed a speech-to-text subsystem (e.g. via cloud APIs or local models)',
+                    'Integrated both modules to produce combined outputs (emotion + transcription)',
+                    'Evaluated performance, tuned parameters, and visualized results'
+                ],
+                technologies: ['Research', 'Data Analyst', 'Google Cloud', 'Machine Learning', 'Python'],
+                images: [
+                    'assets/img/Project 9/Screenshot 2025-09-24 181241.png',
+                    'assets/img/Project 9/Screenshot 2025-09-24 181248.png',
+                    'assets/img/Project 9/Screenshot 2025-09-24 181256.png'
+                ],
+                demoUrl: 'https://colab.research.google.com/drive/1zrfOUogVwLrKtW3HWnP5uO2uN5GBV_dT?usp=sharing',
+                reportUrl: 'https://www.canva.com/design/DAGpqp_E70k/vuW3X8jWnWEb6n1cwUSp1Q/edit?utm_content=DAGpqp_E70k&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton'
+            },
+            project9: {
+                title: 'Database Design',
+                image: 'assets/img/Project 10/Screenshot 2025-09-24 182311.png',
+                description: 'A well-structured database is very important. This database will facilitate data storage, retrieval, and management for the proposed system, ensuring that all customer interactions are captured and utilized effectively.',
+                contributions: [
+                    'Developed comprehensive database schema and architecture',
+                    'Used Entity-Relationship (ER) diagrams and data flow modeling',
+                    'Designed normalized tables to prevent data redundancy',
+                    'Created database documentation for the system'
+                ],
+                technologies: ['Report', 'Google Docs', 'Microsoft Access', 'Figma', 'Visual Paradigm'],
+                images: [
+                    'assets/img/Project 10/Screenshot 2025-09-24 182311.png'
+                ],
+                demoUrl: 'https://www.figma.com/proto/GnqBRrqWH3Y3XYiySsYk8c/Untitled?node-id=0-1&t=MB2aSuAanA5HmZkq-1',
+                reportUrl: 'https://docs.google.com/document/d/1Uh7z4m8052Rxtdyn0VSx1D9T1805B6JRa0CBqToYv2Y/edit?usp=sharing'
+            }
+        };
+
+        const activitiesData = {
+            interfaith: {
+                title: 'Interfaith Dialogue: Key to Tolerance and Harmony',
+                images: [
+                    'assets/img/Activity 3/IMG_20241211_161638 (1).jpg',
+                    'assets/img/Activity 3/IMG1.png',
+                    'assets/img/Activity 3/IMG2.png'
+                ]
+            },
+            sdg15: {
+                title: 'Volunteer Campaign on SDG 15: Life on Land',
+                images: [
+                    'assets/img/Activity 2/Observasi2 (2).jpg',
+                    'assets/img/Activity 2/Screenshot 2025-09-23 174130.png',
+                    'assets/img/Activity 2/Wawancara2 (1).jpg'
+                ]
+            },
+            anticorruption: {
+                title: 'Anti-Corruption Awareness Campaign',
+                images: [
+                    'assets/img/Activity 1/Photo Dokumentasi 1 (Kelompok 4) (1).jpg',
+                    'assets/img/Activity 1/Photo Dokumentasi 2 (Kelompok 4) (1).jpg',
+                    'assets/img/Activity 1/Photo Dokumentasi 5 (Kelompok 4) (1).jpg'
+                ]
+            }
+        };
+
+        // Project details toggle functionality
+        let expandedDetails = null;
+        document.querySelectorAll('.details-toggle').forEach(toggle => {
+            toggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                const parentCard = this.closest('.project-card-item');
+                const targetId = parentCard.getAttribute('data-project-id');
+                const targetContainer = document.getElementById(`${targetId}-details`);
+                
+                if (expandedDetails && expandedDetails !== targetContainer) {
+                    expandedDetails.style.display = 'none';
+                    expandedDetails.classList.remove('show');
+                }
+
+                if (expandedDetails === targetContainer) {
+                    targetContainer.style.display = 'none';
+                    targetContainer.classList.remove('show');
+                    expandedDetails = null;
+                } else {
+                    const project = projectData[targetId];
+                    if (project) {
+                        const detailsHtml = `
+                            <div class="p-8">
+                                <a id="project-details-close-btn" class="text-blue-400 font-medium hover:underline flex items-center mb-4 cursor-pointer">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 transform rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                    <span>Show Less</span>
+                                </a>
+                                <div class="grid md:grid-cols-2 gap-8">
+                                    ${project.images && project.images.length > 0 ? `
+                                    <div class="col-span-2 md:col-span-1">
+                                        <img src="${project.images[0]}" alt="${project.title}" class="rounded-lg w-full h-auto object-cover mb-4">
+                                    </div>` : ''}
+                                    <div class="col-span-2 md:col-span-1">
+                                        ${project.title ? `<h3 class="text-2xl font-bold mb-2">${project.title}</h3>` : ''}
+                                        ${project.description ? `<p class="text-sm text-gray-400 mb-4">${project.description}</p>` : ''}
+                                        ${project.technologies && project.technologies.length > 0 ? `
+                                        <h4 class="text-lg font-bold mt-4">Technologies Used</h4>
+                                        <div class="flex flex-wrap gap-2 mb-4">
+                                            ${project.technologies.map(tech => `<span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">${tech}</span>`).join('')}
+                                        </div>` : ''}
+                                        ${project.contributions && project.contributions.length > 0 ? `
+                                        <h4 class="text-lg font-bold mt-4">My Contributions</h4>
+                                        <ul class="text-sm text-gray-400 space-y-1 ml-4 list-disc">
+                                            ${project.contributions.map(contrib => `<li>${contrib}</li>`).join('')}
+                                        </ul>` : ''}
+                                        <div class="mt-6 flex space-x-4">
+                                            ${project.demoUrl ? `<a href="${project.demoUrl}" target="_blank" class="inline-flex items-center space-x-2 bg-blue-600 text-white font-medium py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300">View Demo</a>` : ''}
+                                            ${project.reportUrl ? `<a href="${project.reportUrl}" target="_blank" class="inline-flex items-center space-x-2 bg-blue-600 text-white font-medium py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300">View Report</a>` : ''}
+                                            ${project.sourceUrl ? `<a href="${project.sourceUrl}" target="_blank" class="inline-flex items-center space-x-2 bg-gray-700 text-gray-300 font-medium py-2 px-4 rounded-lg shadow-md hover:bg-gray-600 transition-colors duration-300">View Source Code</a>` : ''}
+                                            ${project.images && project.images.length > 0 ? `
+                                            <a id="project-view-pictures-btn" class="inline-flex items-center space-x-2 bg-blue-500 text-white font-medium py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition-colors duration-300 cursor-pointer" data-project-id="${targetId}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l-4.586-4.586a2 2 0 00-2.828 0L4 16m4 0l4.586-4.586a2 2 0 012.828 0L20 16" />
+                                                </svg>
+                                                <span>View Images</span>
+                                            </a>` : ''}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        targetContainer.innerHTML = detailsHtml;
+                        targetContainer.style.display = 'grid';
+                        targetContainer.classList.add('show');
+                        expandedDetails = targetContainer;
+
+                        targetContainer.querySelector('#project-details-close-btn').addEventListener('click', function() {
+                            targetContainer.style.display = 'none';
+                            targetContainer.classList.remove('show');
+                            expandedDetails = null;
+                        });
+                        if (targetContainer.querySelector('#project-view-pictures-btn')) {
+                            targetContainer.querySelector('#project-view-pictures-btn').addEventListener('click', function() {
+                                const imageGalleryContainer = document.getElementById('image-gallery-container');
+                                const modal = document.getElementById('image-modal');
+                                const modalTitle = document.getElementById('modal-title');
+                                
+                                imageGalleryContainer.innerHTML = '';
+                                project.images.forEach(imageUrl => {
+                                    const img = document.createElement('img');
+                                    img.src = imageUrl;
+                                    img.alt = project.title;
+                                    img.className = 'w-full object-contain h-auto rounded-lg';
+                                    imageGalleryContainer.appendChild(img);
+                                });
+                                
+                                modalTitle.textContent = project.title;
+                                modal.style.display = 'flex';
+                            });
+                        }
+                    }
+                }
+            });
+        });
+
+        // Image modal for activities
+        const imageModal = document.getElementById('image-modal');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+        const modalTitle = document.getElementById('modal-title');
+        const imageGalleryContainer = document.getElementById('image-gallery-container');
+
+        document.querySelectorAll('.view-pictures-toggle').forEach(toggle => {
+            toggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                const activityId = this.getAttribute('data-activity');
+                const activity = activitiesData[activityId];
+
+                imageGalleryContainer.innerHTML = '';
+                activity.images.forEach(imageUrl => {
+                    const img = document.createElement('img');
+                    img.src = imageUrl;
+                    img.alt = activity.title;
+                    img.className = 'w-full object-contain h-auto rounded-lg';
+                    imageGalleryContainer.appendChild(img);
+                });
+                
+                modalTitle.textContent = activity.title;
+                imageModal.style.display = 'flex';
+            });
+        });
+        
+        modalCloseBtn.addEventListener('click', () => {
+            imageModal.style.display = 'none';
+        });
+
+        imageModal.addEventListener('click', (e) => {
+            if (e.target.id === 'image-modal') {
+                imageModal.style.display = 'none';
+            }
+        });
+
+        // Tool category filtering
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const toolCards = document.querySelectorAll('.tool-card');
+        const toolsContainer = document.getElementById('tools-container');
+
+        const allToolCards = document.querySelectorAll('.tool-card');
+        const categories = {
+            'development': ['HTML', 'CSS', 'JavaScript', 'AJAX', 'jQuery', 'React', 'Vue', 'Alpine', 'Astro', 'PHP', 'Laravel', 'Node.js', 'Express', 'NestJS', 'AdonisJS', 'Flutter', 'Dart', 'Visual Studio Code', 'Eclipse', 'Git', 'GitHub'],
+            'database': ['MySQL', 'Firebase', 'SQL Server'],
+            'business': ['Canva', 'Microsoft Office', 'Google Workspace', 'Miro', 'Outlook', 'Microsoft Teams', 'SmartPLS 4', 'Zoom', 'Google Meet'],
+            'cloud': ['Google Cloud', 'Firebase', 'Microsoft Azure'],
+            'other': ['UI/UX Design', 'API Integration']
+        };
+
+        function filterCards(category) {
+            allToolCards.forEach(card => {
+                const cardCategory = card.getAttribute('data-category');
+                if (category === 'all' || cardCategory === category) {
+                    card.classList.remove('hidden');
+                    card.classList.add('flex');
+                } else {
+                    card.classList.remove('flex');
+                    card.classList.add('hidden');
+                }
+            });
+        }
+        
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                tabButtons.forEach(btn => {
+                    btn.classList.remove('active-tab', 'bg-blue-900', 'text-blue-400');
+                    btn.classList.add('bg-gray-800', 'text-gray-400');
+                });
+                button.classList.add('active-tab', 'bg-blue-900', 'text-blue-400');
+                button.classList.remove('bg-gray-800', 'text-gray-400');
+                const category = button.getAttribute('data-category');
+                filterCards(category);
+            });
+        });
+        
+        filterCards('development');
+    });
+</script>
+</body>
+</html>
